@@ -1,11 +1,7 @@
-
 const auth = require('./../../plugins/auth');
 //const errorHandler = require('./../../helpers/error-handler');
-
 "use strict";
-
 module.exports.register = async server => {
-
     server.route({
         method: "GET",
         path: "/api/events",
@@ -27,10 +23,6 @@ module.exports.register = async server => {
         }
     });
 
-
-
-
-
     server.route({
         method: "GET",
         path: "/api/events/:id",
@@ -47,15 +39,15 @@ module.exports.register = async server => {
 
     });
 
-
-    ///
     server.route({
         method: "GET",
         path: "/api/status",
-        config: { auth: 'jwt',cors: {
-            origin: ['*'],
-            additionalHeaders: ['cache-control', 'x-requested-with']
-        } },
+        config: {
+            auth: 'jwt', cors: {
+                origin: ['*'],
+                additionalHeaders: ['cache-control', 'x-requested-with']
+            }
+        },
         handler: async request => {
             try {
                 return "Response : 200 OK"
@@ -63,19 +55,13 @@ module.exports.register = async server => {
                 console.log(err);
             }
         }
-
     });
 
-
-    ///
-
-
-    ///
     server.route({
         method: "GET",
         path: "/api/userinfo/{id}",
-        config: { auth: 'jwt' },
-        // config: { auth: false },
+        //config: { auth: 'jwt' },
+          config: { auth: false },
         handler: async request => {
             try {
                 const id = request.params.id;
@@ -87,9 +73,7 @@ module.exports.register = async server => {
                 console.log(err);
             }
         }
-
     });
-
 
     server.route({
         method: "GET",
@@ -102,10 +86,27 @@ module.exports.register = async server => {
                 console.log(err);
             }
         }
-
     });
 
+    server.route({
+        method: "GET",
+        path: "/api/sms",
+        config: { auth: false },
+        handler: async request => {
+            try {
+                //const id = request.params.id;
+                const db = request.server.plugins.sql.client;
+                console.log(db);
+                //const res = await db.events.getusers();
+                 
+                 //return res.recordsets;
+               // return "Response : 200 OK"
+            } catch (err) {
+                console.log(err);
+            }
+        }
 
+    });
 
 
 

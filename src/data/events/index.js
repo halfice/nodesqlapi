@@ -1,7 +1,7 @@
 "use strict";
 
 const utils = require( "../utils" );
-
+//we can put if else
 const register = async ( { sql, getConnection } ) => {
    // read in all the .sql files for this folder
    const sqlQueries = await utils.loadSqlQueries( "events" );
@@ -26,8 +26,10 @@ const register = async ( { sql, getConnection } ) => {
       // return result;
      
    };
+
+  
    return {      
-     getEvents
+      getEvents
 };
 
  
