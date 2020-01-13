@@ -1,1 +1,1 @@
-select * from core.units
+SELECT Data FROM CORE.WorkflowInstances WHERE InstanceSId=@id

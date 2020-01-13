@@ -14,9 +14,11 @@
 "use strict";
 const config = require( "./config" );
 const server = require( "./server" );
+var cors = require('cors')
 const startServer = async () => {
    try {
        const app = await server( config );
+      // app.use(cors())
        await app.start();
        console.log( `Server running at http://${ config.host }:${ config.port }...` );
    } catch ( err ) {

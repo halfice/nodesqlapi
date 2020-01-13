@@ -1,1 +1,1 @@
-select * from core.users
+SELECT * FROM CORE.WorkflowInstances WHERE InstanceSId=@Insd
