@@ -9,16 +9,19 @@ class CreateBook extends Component {
     super(props);
     this.state = {
       books: [],
-      Guid: "",
+      Guid:"ea442f52-ccf0-498c-98c2-48209a17bbba",
+      JsonObject:"",
     };
   }
-
   componentDidMount() {
     axios
-      .get('http://localhost:8000/smartapi/sms/061e71b1-aa7a-452a-a40f-44814a4faafc')
+      .get('http://localhost:8000/smartapi/sms/ea442f52-ccf0-498c-98c2-48209a17bbba')
       .then(res => {
         this.setState({
-          books: res.data[0][0].Data
+          books: res.data.recordset[0].Data,//.data[0][0].Data,
+          JsonObject: res.data.recordset[0].Data,//.data[0][0].Data,
+          Guid:"ea442f52-ccf0-498c-98c2-48209a17bbba"
+          
         })
       })
       .catch(err => {
@@ -31,6 +34,42 @@ class CreateBook extends Component {
     this.setState({ Guid: evt.target.value });
   }
 
+  handleChangetxtarea(evt) {
+    //alert(evt.target.value);
+    this.setState({ JsonObject: evt.target.value,
+      books:evt.target.value });
+  }
+  
+
+  onClickUpdate()
+  {
+    const config = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS"
+      }
+    };
+    const params = new URLSearchParams();
+    params.append('Id', this.state.Guid);
+    params.append('Data',this.state.JsonObject);
+
+    axios({
+      method:"PUT",
+      //url:"http://localhost:8000/smartapi/ups",
+      url:'http://localhost:8000/smartapi/ups/',
+      data:params,
+      crossDomain: true
+        },config).then(res=>{
+     // console.log(res);
+    })
+    .catch(err=>{
+      console.log(err);
+
+    });//axios end
+
+    
+  }
+
   onclickevent() {
     this.setState({
       books: ""
@@ -40,7 +79,8 @@ class CreateBook extends Component {
       .get(`http://localhost:8000/smartapi/sms/${guid}`)
       .then(res => {
         this.setState({
-          books: res.data[0][0].Data
+          books: res.data.recordset[0].Data,//.data[0][0].Data,
+          JsonObject: res.data.recordset[0].Data,//.data[0][0].Data,
         })
       })
       .catch(err => {
@@ -53,6 +93,7 @@ class CreateBook extends Component {
     var items = this.state.books;
     let bookList = [];
     let bookList1 = [];
+    let bookList2 = [];
     if (items != null && items != "") {
       bookList = "[{" + this.state.books + "}]";//.map((item, key) =>
       try {
@@ -60,8 +101,13 @@ class CreateBook extends Component {
         var tmpbookList1 = JSON.stringify(parseJson(this.state.books));
         var tmpstringsplit = tmpbookList1.split(',');
         for (var x = 0; x < tmpstringsplit.length; x++) {
-          bookList1 += tmpstringsplit[x] + "\n";
+          if (x==tmpstringsplit.length-1){
+            bookList1 += tmpstringsplit[x] + "\n";
+          }else
+          {bookList1 += tmpstringsplit[x] + ",\n";}
+          
         }
+        bookList2=items;
 
 
 
@@ -94,13 +140,19 @@ class CreateBook extends Component {
 
             <input type="text" placeholder="Search..." defaultValue="Search..."
               onChange={this.handleChange.bind(this)} name="guidtxt" className="txtcss" />
-            <button onClick={this.onclickevent.bind(this)} >Submit</button>
+            <button  className="buttonclass"  onClick={this.onclickevent.bind(this)} >Submit</button>
           </div>
 
           <div className="list">
-            <textarea rows="4" cols="50" className="textareacss" value={bookList1}>
+            <textarea rows="4" cols="50"  onChange={this.handleChangetxtarea.bind(this)} className="textareacss" value={bookList2}>
             </textarea>
+         </div>
+         <div>
+         <div className="list">
+          <button  className="buttonclass" onClick={this.onClickUpdate.bind(this)} >Update</button>
           </div>
+          </div>
+          <hr></hr>
         </div>
       </div>
     );

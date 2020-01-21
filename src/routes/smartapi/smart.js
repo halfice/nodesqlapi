@@ -60,22 +60,45 @@ module.exports.registersmart = async server => {
             try {
                 const id = request.params.Id;
                 const db = request.server.plugins.sql.client2;
-                const db2 = request.server.plugins.sql.client3;
-                console.log("First Call" + id);
-                const res = await db2.smartevents2.getunits(id);
-                const json = res.recordsets[0][0].Data;
-                console.log(json)
+                const res = await db.smartentity.getUsers(id,"");
+                console.log(res);
+                return res;
+               // const json = res.recordsets[0][0].Data;
+                //return res.recordsets;
 
-                try {
-                    parseJson(json);
-                } catch (error) {
-                    throw error;
-                }
+            } catch (err) {
+                console.log(err);
+            }
+        }
+
+    });
+
+
+    server.route({
+        method: ['POST', 'PUT'],
+        path: "/smartapi/ups/",
+        config: {
+            auth: false,
+            cors: {
+                origin: ['*'],
+                additionalHeaders: ['cache-control', 'x-requested-with']
+            }
+        },
+        handler: async (request, res) => {
+            try {
+               // console.log(request);
+                const payload = request.payload;
+               // console.log(payload.Data);
+                //console.log(payload.Id);
+                const db = request.server.plugins.sql.client2;
+                const res = await db.smartentity.getUsers(payload.Id,payload.Data);
+                const json = res.recordsets[0][0].Data;
                 return res.recordsets;
 
             } catch (err) {
                 console.log(err);
             }
+            return request;
         }
 
     });

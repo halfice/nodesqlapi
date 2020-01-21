@@ -12,9 +12,11 @@ module.exports = {
        // create an instance of the database client
        const client = await dataClient( server, config );
        // "expose" the client so it is available everywhere "server" is available
+      console.log(client);
        server.expose( "client", client );
        server.expose( "client2", client );
-       server.expose( "client3", client );
+     
+       
    }
 
    
