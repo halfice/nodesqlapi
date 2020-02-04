@@ -5,10 +5,10 @@ const utils = require("../utils");
 const register = async ({ sql, getConnection }) => {
    // read in all the .sql files for this folder
    const sqlQueries = await utils.loadSqlQueries("smartentity");
-   var getUsers = async (id, datas) => {
+   var getUsers = async (id, datas,stepid, stepnamecaption, stepcaption) => {
       const cnx = await getConnection();
       const request = await cnx.request();
-      console.log(datas);
+      console.log(stepid);
       if (datas == "") {
          request.input("id", sql.VarChar(50), id);
          console.log("This Inside t" + id +sqlQueries.getunits);
@@ -16,6 +16,9 @@ const register = async ({ sql, getConnection }) => {
       } else {
          request.input("id", sql.VarChar(50), id);
          request.input("data", sql.VarChar(90000), datas);
+         request.input("stepid", sql.VarChar(500), stepid);
+         request.input("stepnamecaption", sql.VarChar(500), stepnamecaption);
+         request.input("stepcaption", sql.VarChar(500), stepcaption);
          return request.query(sqlQueries.getupdate);
       }
    };

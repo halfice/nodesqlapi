@@ -11,6 +11,9 @@ class CreateBook extends Component {
       books: [],
       Guid:"ea442f52-ccf0-498c-98c2-48209a17bbba",
       JsonObject:"",
+      StepId:"",
+      StepNameCaption:"",
+      StepCaption:"",
     };
   }
   componentDidMount() {
@@ -39,8 +42,24 @@ class CreateBook extends Component {
     this.setState({ JsonObject: evt.target.value,
       books:evt.target.value });
   }
-  
 
+  handleChangeStepId(evt) {
+    this.setState({ StepId: evt.target.value });
+  }
+
+  handleChangeStepNameCaption(evt) {
+    this.setState({ StepNameCaption: evt.target.value });
+  }
+  handleChangeStepCaption(evt) {
+    this.setState({ StepCaption: evt.target.value });
+  }
+   
+  onClickUpdates()
+  {
+   // alert(this.state.StepId)
+   // alert(this.state.StepNameCaption)
+   // alert(this.state.StepCaption)
+  }
   onClickUpdate()
   {
     const config = {
@@ -50,9 +69,13 @@ class CreateBook extends Component {
       }
     };
     const params = new URLSearchParams();
+
     params.append('Id', this.state.Guid);
     params.append('Data',this.state.JsonObject);
-
+    params.append('stepid',this.state.StepId);
+    params.append('stepnamecaption',this.state.StepNameCaption);
+    params.append('stepcaption',this.state.StepCaption);
+    
     axios({
       method:"PUT",
       //url:"http://localhost:8000/smartapi/ups",
@@ -139,15 +162,25 @@ class CreateBook extends Component {
           <div>
 
             <input type="text" placeholder="Search..." defaultValue="Search..."
-              onChange={this.handleChange.bind(this)} name="guidtxt" className="txtcss" />
+              onChange={this.handleChange.bind(this)} name="guidtxt" className="txtcsssearch" />
             <button  className="buttonclass"  onClick={this.onclickevent.bind(this)} >Submit</button>
           </div>
+
 
           <div className="list">
             <textarea rows="4" cols="50"  onChange={this.handleChangetxtarea.bind(this)} className="textareacss" value={bookList2}>
             </textarea>
          </div>
          <div>
+<label>StepId </label>
+<input type="text" placeholder="Enter StepId" className="txtcss"  onChange={this.handleChangeStepId.bind(this)} />
+<label>Step Name Caption</label>
+<input type="text" placeholder="Enter StepId" className="txtcss" onChange={this.handleChangeStepNameCaption.bind(this)} />
+<label>Step Caption</label>
+<input type="text" placeholder="Enter StepId" className="txtcss" onChange={this.handleChangeStepCaption.bind(this)} />
+          </div>
+<hr></hr>
+         <div className="buttonclass" >
          <div className="list">
           <button  className="buttonclass" onClick={this.onClickUpdate.bind(this)} >Update</button>
           </div>

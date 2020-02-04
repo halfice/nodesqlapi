@@ -1,9 +1,13 @@
 .App {
+  cursor: pointer;
   text-align: center;
 }
-
+.body {
+  cursor: pointer;
+}
 
 .buttonclass{
+  cursor: pointer;
   display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -29,12 +33,17 @@
   pointer-events: none;
 }
 
-
+.txtcsssearch
+{
+  width:70%;
+  padding:11px;
+  height: 40px;
+  font-size: 22px;  
+  }
 .txtcss{
-  width:60%;
 padding:11px;
 height: 40px;
-font-size: 19px;  
+font-size: 22px;  
 }
 .textareacss{
   width: 90%;

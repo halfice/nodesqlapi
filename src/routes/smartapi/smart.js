@@ -88,10 +88,13 @@ module.exports.registersmart = async server => {
             try {
                // console.log(request);
                 const payload = request.payload;
-               // console.log(payload.Data);
-                //console.log(payload.Id);
+                //console.log("This is Id "+payload.Id);
+                //console.log("This is StepId "+payload.stepid);
+                //console.log("This is NameCaption "+payload.stepnamecaption);
+                //console.log("This is CpationOnly "+payload.stepcaption);
                 const db = request.server.plugins.sql.client2;
-                const res = await db.smartentity.getUsers(payload.Id,payload.Data);
+                const res = await db.smartentity.getUsers(payload.Id,payload.Data,payload.stepid,payload.stepnamecaption,payload.stepcaption);
+                console.log(res);
                 const json = res.recordsets[0][0].Data;
                 return res.recordsets;
 
